@@ -1,0 +1,37 @@
+.gohome {
+  width: 320px;
+  height: 88px;
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+  cursor: pointer;
+  padding: 10px 20px;
+  font-size: 20px;
+  border: none;
+}
+
+.footer-parent {
+  height: 230px;
+  background-color: #f0f0f0;
+  position: relative;
+  top:20px;
+  padding: 20px 20px 20px 20px;
+}
+
+.textarea-content{
+  position: relative;
+  top:20px;
+}
+
+.huemone {
+  position: relative;
+  top: 30px;
+  width: 112.5px;
+  height: 52.5px;
+  background-size: contain; 
+  border: none;          
+  background-repeat: no-repeat;
+  background-position: center; 
+  cursor: pointer;      
+}  
+
