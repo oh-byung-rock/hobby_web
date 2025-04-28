@@ -32,17 +32,17 @@ function App() {
       setCURD(null); // 생성 화면 닫기
     };
 
-    const onUpdate = (title, body) => {
-      const newItem = {
-        id: lists.length + 1,
-        title,
-        body
-      };
+    const onUpdate = (id,title, body) => {
+      const updatedata = {id:id , title:title, body:body}
+      const newlists = [...lists]
+      newlists[id-1] = updatedata
+      setLists(newlists);
+    };
 
-      const newItems = [...lists];
-      newItems.push(newItem);
-      setLists(newItems);
-
+    const onDelete = (id) => {
+      const newlists = lists.filter(item => item.id !== id);
+      console.log('삭제됨',newlists);
+      setLists(newlists);
       setCURD(null); // 생성 화면 닫기
     };
 
@@ -95,6 +95,8 @@ function App() {
               iscrud={iscrud}
               onCreate={onCreate}
               onUpdate={onUpdate}
+              onDelete={onDelete}
+              setSelectedItem={setSelectedItem}
               selectedItem={selectedItem}/>
               </>
             }

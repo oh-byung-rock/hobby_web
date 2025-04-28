@@ -81,11 +81,12 @@ function Article({ selectedItem , setCURD  }) {
           setCURD("create");  
           }}> go create </Link>
       </div>
-      <Link 
-          to={`/update`}
-          onClick={() => {
-          setCURD("update");  
-          }}> data update </Link>
+
+        <Link 
+            to={`/update`}
+            onClick={() => {
+            setCURD("update");  
+            }}> data update </Link>
     </article>
   );
 }
@@ -134,39 +135,33 @@ function Create({ onCreate }) {
   </article> );
 }
 
-function Update({ onUpdate,selectedItem }) {
+function Update({ onUpdate,selectedItem,setSelectedItem,onDelete }) {
   const [isHovered, setIsHovered] = useState(false);
+  const [isHovered1, setIsHovered1] = useState(false);
+  const [Uptitle, setUptitle] = useState(selectedItem.title);
+  const [Upcontent, setUpcontent] = useState(selectedItem.body);
 
   return ( 
   <article>
     <h2>Update 입력하는창</h2>
-    <form
-        onSubmit={(event) => {
-          event.preventDefault();  // 폼 제출 시 리로드를 막습니다.
-          console.log("submit 클릭됨");
-          // form의 요소들에 접근하여 값 가져오기
-          const create_title = event.target.createid.value;  // name="createid"인 input의 값
-          const create_content = event.target.createcontent.value;  // name="createcontent"인 textarea의 값
-
-          // 값을 콘솔에 출력
-          console.log("제목:", create_title);
-          console.log("내용:", create_content);
-          onUpdate(create_title, create_content); // App의 handleCreate 호출
-          
-        }}>
+    <form>
         <div>
-          <input type='text' name="updateid" placeholder='제목을 입력해주세요' value={selectedItem.title}
+          <input type='text' name="updateid" placeholder='제목을 입력해주세요' value={Uptitle}
             onChange={event => {
-              console.log("ddd",event.target.value);
+              setUptitle(event.target.value)
             }}
           />
         </div>
         <div>
-          <textarea name='updatecontent' placeholder='내용을 입력해주세요' className='textarea-content' value={selectedItem.body}/>
+          <textarea name='updatecontent' placeholder='내용을 입력해주세요' className='textarea-content' value={Upcontent}
+            onChange={event => {
+              setUpcontent(event.target.value)
+            }}
+          />
         </div>
         <div>
         <button
-          type="submit"
+          type="button"
           className="huemone"
           style={{ backgroundImage: `url(${
             isHovered
@@ -175,18 +170,39 @@ function Update({ onUpdate,selectedItem }) {
           })` }}
           onMouseEnter={() => setIsHovered(true)} // 마우스가 버튼에 들어갔을 때
           onMouseLeave={() => setIsHovered(false)} // 마우스가 버튼을 벗어났을 때
-          >
+          onClick={(event) => {
+            event.preventDefault();  // 폼 제출 시 리로드를 막습니다.
+            onUpdate(selectedItem.id,Uptitle, Upcontent); // App의 handleCreate 호출
+          }}>
+        </button>
+        
+
+        <button
+          type="button"
+          className="huemone"
+          style={{ backgroundImage: `url(${
+            isHovered1
+              ? '/assets/delete_bar_on.png'
+              : '/assets/delete_bar_off.png'
+          })` }}
+          onMouseEnter={() => setIsHovered1(true)} // 마우스가 버튼에 들어갔을 때
+          onMouseLeave={() => setIsHovered1(false)} // 마우스가 버튼을 벗어났을 때
+          onClick={(event) => {
+            event.preventDefault();  // 폼 제출 시 리로드를 막습니다.
+            onDelete(selectedItem.id); // App의 handleCreate 호출
+            setSelectedItem(null);
+          }}>
         </button>
         </div>
       </form>
   </article> );
 }
 
-function Footer({ iscrud, onCreate,onUpdate,selectedItem }) {
+function Footer({ iscrud, onCreate,onUpdate,selectedItem, setSelectedItem,onDelete }) {
   return (
     <footer className="footer-parent">
       {iscrud === "create" ? <Create onCreate={onCreate} /> : null}
-      {iscrud === "update" ? <Update onUpdate={onUpdate} selectedItem={selectedItem} /> : null}
+      {iscrud === "update" ? <Update onUpdate={onUpdate} selectedItem={selectedItem} setSelectedItem={setSelectedItem} onDelete={onDelete} /> : null}
     </footer>
   );
 }
